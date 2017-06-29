@@ -7,23 +7,41 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             $(document).ready(function(){
-
+                
+                
+                $("#houses").on("click", "img", function(e){
+                    $("#houseName").html("");
+                    $("#houseWords").html("");
+                    $("#houseTitles").html("");
+                    $("#coatOfArms").html("");
+                    var id = e.currentTarget.id
+                    $.get("https://anapioficeandfire.com/api/houses/" + id, function(house) {
+                        $("#houseName").append(house.name);
+                        $("#houseWords").append(house.words);
+                        // console.log(house.titles.length);
+                        for(var i = 0; i < house.titles.length; i++){
+                            $("#houseTitles").append("<ul><li>" + house.titles[i] + "</li></ul>");
+                        }
+                        $("#coatOfArms").append("<h3 style='color: red;'>Coat of Arms</h3>" + house.coatOfArms);
+                    });
+                });
             });
         </script>
     </head>
     <body>
         <div id="wrapper">
-            <div housesRow>
-                <img class="house" src="images/stark.jpg" alt="House Stark">
-                <img class="house" src="images/targaryen.jpg" alt="House Targaryen">
-                <img class="house" src="images/lannister.jpg" alt="House Lannister">
-                <img class="house" src="images/baratheon.png" alt="House Baratheon">
-                <div class="house"></div>
-                <div class="house"></div>
-                <div class="house"></div>
-                <div class="house"></div>
+            <div id="houses">
+                <img class="house" id="2" src="images/stark.jpg" alt="House Stark">
+                <img class="house" id="4" src="images/targaryen.jpg" alt="House Targaryen">
+                <img class="house" id="7" src="images/lannister.jpg" alt="House Lannister">
+                <img class="house" id="8" src="images/baratheon.png" alt="House Baratheon">
             </div>
-            <div id="houseDetails"></div>
+            <div id="houseDetails">
+                <h1 id="houseName"></h1>
+                <h3 id="houseWords" style="color:brown"></h3>
+                <h3 id="houseTitles" style="color:purple"></h3>
+                <h3 id="coatOfArms"></h3>
+            </div>
         </div>
         
     </body>
